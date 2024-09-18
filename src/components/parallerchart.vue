@@ -16,14 +16,14 @@
       <div>
         <label for="rowRange">duration:</label>
         <select v-model="selectedRowCount" @change="updateChart">
-          <option value="160">60 行（1小时）</option>
+          <option value="6">60 行（1小时）</option>
           <option value="1440">1440 行（1天）</option>
           <option value="10080">10080 行（7天）</option>
         </select>
       </div>
   
       <!-- 时间轴 -->
-      <div class="bg-blue-200 border-dashed rounded border border-blue-500 hover:bg-sky-50" 
+      <div  
       ref="timeline" id="timeline" style="width: 100%; height: 50px;"></div>
   
       <!-- 平行坐标系 -->
@@ -32,16 +32,31 @@
   </template>
   
   <script>
+
   import * as echarts from 'echarts';
   import axios from 'axios';
   import * as d3 from 'd3';
 // import { head } from 'node_modules/axios/index.cjs';
-  
+  // 定义颜色渐变函数，接收轴的索引i，返回不同的颜色
+function getBoxColor(i, total) {
+  // 定义颜色从浅蓝色 (#ADD8E6) 到深蓝色 (#00008B) 的渐变
+  const startColor = d3.rgb(173, 216, 230); // 浅蓝色
+  const endColor = d3.rgb(0, 0, 139); // 深蓝色
+
+  // 使用d3的scaleLinear创建一个颜色插值函数
+  const colorScale = d3.scaleLinear()
+    .domain([0, total - 1]) // 输入范围，0到列的总数减1
+    .range([startColor, endColor]); // 输出颜色范围
+
+  // 返回当前轴的颜色
+  return colorScale(i);
+}
+
   export default {
     data() {
       return {
         selectedColumnRange: '2-8',  // 当前选择的列范围
-        selectedRowCount: 160,  // 当前选择的行数
+        selectedRowCount: 6,  // 当前选择的行数
         timelineChart: null,  // 时间轴图表实例
         parallelChart: null,  // 平行坐标系图表实例
         csvData: [],  // 存储解析后的CSV数据
@@ -49,7 +64,7 @@
         displayedData: [],  // 当前时间片显示的数据
         columnNames :[],
         columnOptions: {
-          '2-8': [2, 3, 4, 5, 6, 7, 8],
+          '2-8': [2, 3,4,5,6,7,8],
           '9-17': [9, 10, 11, 12, 13, 14, 15, 16, 17],
           '18-27': [18, 19, 20, 21, 22, 23, 24, 25, 26, 27],
           '28-40': [28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40],
@@ -270,9 +285,9 @@
             },
           ],
         });
-        setTimeout(() => {
-          this.drawBoxPlot(this.displayedData, selectedColumns);
-        }, 1500);
+        // setTimeout(() => {
+        //   this.drawBoxPlot(this.displayedData, selectedColumns);
+        // }, 1500);
 
         // this.drawBoxPlot(this.displayedData,selectedColumns)
       },
@@ -297,6 +312,8 @@
         this.handleTimelineChange({
           name: this.timePoints[0],  // 默认从第一个时间点开始
         });
+        const selectedColumns = this.columnOptions[this.selectedColumnRange];
+        this.drawBoxPlot(this.displayedData,selectedColumns)
       },
 
 
@@ -326,76 +343,66 @@
 
     // },
     drawBoxPlot(data, selectedColumns) {
-      const svg = d3.select(this.$refs.parallelChart)
-        .append('svg')
-        .attr('width', this.parallelChart.getWidth())
-        .attr('height', this.parallelChart.getHeight())
-        .style('position', 'absolute')
-        .style('top', 0)
-        .style('left', 0)
-        .style('pointer-events', 'none');
+  const svg = d3.select(this.$refs.parallelChart)
+    .append('svg')
+    .attr('width', this.parallelChart.getWidth())
+    .attr('height', this.parallelChart.getHeight())
+    .style('position', 'absolute')
+    .style('top', 0)
+    .style('left', 0)
+    .style('pointer-events', 'none'); // 禁止鼠标事件
 
-      const xScale = d3.scalePoint()
-        .domain(selectedColumns)
-        .range([0, this.parallelChart.getWidth()]);
+  // 获取列在平行坐标系上的x位置
+  selectedColumns.forEach((col, i) => {
+    const colData = data.map(row => +row[col]).filter(d => !isNaN(d)).sort((a, b) => a - b);
+    console.log("col:",col,"name:",this.columnNames[col],"i:",i)
+    if (colData.length === 0) {
+      console.warn(`列 ${col} 没有有效的数据`);
+      return;
+    }
 
-      selectedColumns.forEach((col, i) => {
-        const colData = data.map(row => +row[this.columnNames[col]]).filter(d => !isNaN(d)).sort((a, b) => a - b);
-        const min = d3.min(colData);
-        const max = d3.max(colData);
-        const q1 = d3.quantile(colData, 0.25);
-        const median = d3.median(colData);
-        const q3 = d3.quantile(colData, 0.75);
+    const min = d3.min(colData);
+    const max = d3.max(colData);
+    const q1 = d3.quantile(colData, 0.25);
+    const median = d3.median(colData);
+    const q3 = d3.quantile(colData, 0.75);
 
-        const x = xScale(i);
+    // 使用 ECharts 的 convertToPixel 转换位置
+    const x = this.parallelChart.convertToPixel({ seriesIndex: 0, dimension: i }, col-selectedColumns[0]); // 改为正确的 finder
+    const yScale = d3.scaleLinear()
+      .domain([min, max])
+      .range([this.parallelChart.getHeight(), 0]);
+      const color = getBoxColor(i, selectedColumns.length)
+    // 绘制箱体
+    svg.append('rect')
+      .attr('x', x - 10)
+      .attr('y', yScale(q3))
+      .attr('width', 20)
+      .attr('height', yScale(q1) - yScale(q3))  // 计算高度
+      .attr('fill', 'none')
+      .attr('stroke', color)
+      .attr('stroke-width', 2);
 
-        // 绘制箱体
-        svg.append('rect')
-          .attr('x', x - 10)
-          .attr('y', this.parallelChart.convertToPixel('yAxis', q3))
-          .attr('width', 20)
-          .attr('height', this.parallelChart.convertToPixel('yAxis', q1) - this.parallelChart.convertToPixel('yAxis', q3))
-          .attr('fill', 'none')
-          .attr('stroke', 'red')
-          .attr('stroke-width', 2);
+    // 中位线
+    svg.append('line')
+      .attr('x1', x - 10)
+      .attr('x2', x + 10)
+      .attr('y1', yScale(median))
+      .attr('y2', yScale(median))
+      .attr('stroke', color)
+      .attr('stroke-width', 2);
 
-        // 中位线
-        svg.append('line')
-          .attr('x1', x - 10)
-          .attr('x2', x + 10)
-          .attr('y1', this.parallelChart.convertToPixel('yAxis', median))
-          .attr('y2', this.parallelChart.convertToPixel('yAxis', median))
-          .attr('stroke', 'red')
-          .attr('stroke-width', 2);
+    // 须线
+    svg.append('line')
+      .attr('x1', x)
+      .attr('x2', x)
+      .attr('y1', yScale(max))
+      .attr('y2', yScale(min))
+      .attr('stroke', color)
+      .attr('stroke-width', 2);
+  });
+}
 
-        // 须线
-        svg.append('line')
-          .attr('x1', x)
-          .attr('x2', x)
-          .attr('y1', this.parallelChart.convertToPixel('yAxis', max))
-          .attr('y2', this.parallelChart.convertToPixel('yAxis', min))
-          .attr('stroke', 'red')
-          .attr('stroke-width', 2);
-
-        // 上须
-        svg.append('line')
-          .attr('x1', x - 10)
-          .attr('x2', x + 10)
-          .attr('y1', this.parallelChart.convertToPixel('yAxis', max))
-          .attr('y2', this.parallelChart.convertToPixel('yAxis', max))
-          .attr('stroke', 'red')
-          .attr('stroke-width', 2);
-
-        // 下须
-        svg.append('line')
-          .attr('x1', x - 10)
-          .attr('x2', x + 10)
-          .attr('y1', this.parallelChart.convertToPixel('yAxis', min))
-          .attr('y2', this.parallelChart.convertToPixel('yAxis', min))
-          .attr('stroke', 'red')
-          .attr('stroke-width', 2);
-      });
-    },
     //  updateBoxPlot(data, selectedColumns) {
     //         let boxPlotData = calculateBoxPlotData(data, selectedColumns);
     //         drawBoxPlot(boxPlotData, parallelCoordinatesChart);
