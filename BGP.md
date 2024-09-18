@@ -1,0 +1,53 @@
+### - 特征提取后：
+
+字段            |  说明
+ ----           |  ----
+time_bin        |  时间块号（分钟为间隔）
+timestamp       |  时间戳（UTC）
+vol_total_num   |  消息总数
+vol_ann_num     |  宣告消息总数
+vol_wd_num      |  撤销消息总数
+vol_origin0     |  属于IGP的消息总数
+vol_origin1     |  属于EGP的消息总数
+vol_origin2     |  属于IMCOMPLETE的消息总数
+vol_peer_num    |  出现过的peer的数量
+vol_pfx_num     |  出现过的prefix的数量
+vol_pfx_avg     |  不同prefix出现过的平均次数
+vol_pfx_max     |  不同prefix出现过的最大次数
+path_len_max    |  最大路径长度
+path_len_avg    |  平均路径长度
+path_unq_len_max|  去重后的最大路径长度
+path_unq_len_avg|  去重后的平均路径长度
+AS_count        |  出现过的AS的数量
+AS_count_max    |  不同AS出现过的最大次数
+AS_count_avg    |  不同AS出现过的平均次数
+AS_rare_max     |  一条消息的路径中含有稀有AS的最大数量
+AS_rare_sum     |  所有消息的路径中含有稀有AS的总共数量
+pp_num          |  不同peer-prefix对的数量
+pp_max          |  不同peer-prefix对出现过的最大次数
+pp_avg          |  不同peer-prefix对出现过的平均次数
+is_WA           |  同一peer-prefix下，属于撤销后宣告
+is_AW           |  同一peer-prefix下，属于宣告后撤销
+is_WAW          |  同一peer-prefix下，属于撤销-宣告-撤销
+is_longer_path  |  同一peer-prefix下，路径变长
+is_shorter_path |  同一peer-prefix下，路径变短
+is_longer_unq_path  |  同一peer-prefix下，去重后路径变长
+is_shorter_unq_path |  同一peer-prefix下，去重后路径变短
+is_new          |  同一peer-prefix下，属于全新宣告
+is_dup_ann      |  同一peer-prefix下，属于完全重复宣告
+is_AWnA         |  同一peer-prefix下，属于宣告-撤销多次-宣告
+is_imp_wd       |  同一peer-prefix下，属于隐式撤销（重复宣告，但其他属性变化）
+is_WnA          |  同一peer-prefix下，属于撤销多次-宣告
+is_AWn          |  同一peer-prefix下，属于宣告-多次撤销
+is_AnW          |  同一peer-prefix下，属于多次宣告-撤销
+is_WAn          |  同一peer-prefix下，属于撤销-多次宣告
+is_dup_wd       |  同一peer-prefix下，属于重复撤销  
+is_dup          |  同一peer-prefix下，属于重复宣告/撤销
+is_flap         |  同一peer-prefix下，属于宣告-撤销-宣告，且属性完全不变
+is_NADA         |  同一peer-prefix下，属于宣告-撤销-宣告，但属性有变化
+is_imp_wd_spath |  同一peer-prefix下，属于路径属性不变的隐式撤销
+is_imp_wd_dpath |  同一peer-prefix下，属于路径属性变化的隐式撤销
+edit_dist_max   |  同一peer-prefix下的消息中，最大的编辑距离值
+edit_dist_avg   |  同一peer-prefix下的消息中，平均的编辑距离值
+ED_0            |  同一peer-prefix下，编辑距离为0的消息数量
+ED_1~10         |  同一peer-prefix下，编辑距离为1~10的消息数量  
