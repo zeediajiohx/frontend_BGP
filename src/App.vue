@@ -3,13 +3,13 @@
   <!-- ... -->
   </html>
 
-  <div class="flex  flex-col space-y-4   h-screen ">
+  <div class="flex  flex-col    h-screen ">
      <!-- top -->
-    <div class="h-2/3  flex space-x-4 ">
+    <div class="h-2/3  flex  ">
       <!-- top left -表单  -->
-      <div class="w-1/4  px-6 py-4  bg-blue-200 border-dashed rounded border border-blue-500 hover:bg-sky-500 h-full  ">
+      <div class="w-1/4    border-dashed  border border-gray-500 h-full  ">
         <div>
-          <div class="bg-slate-600  pl-8 top-title">left</div>
+          <div class="bg-slate-600   top-title">left</div>
         </div>
         
         <div class="content px-4  w-full  h-full ">
@@ -18,51 +18,51 @@
           <el-space direction="vertical" alignment="start" :size=" 30" class="w-full center h-full  flex py-0 first:pt-2 last:pb-2   active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300 item-center"   >
     
             <el-radio-group v-model="size" class="center mt-2  hover:bg-violet-600 dark:text-white text-slate-900 group-hover:text-white text-sm font-semibold">
-      <el-radio value="large">Large</el-radio>
-      <el-radio value="default">Default</el-radio>
-      <el-radio value="small">Small</el-radio>
-    </el-radio-group>
-    <div class=" w-fit overflow-hidden overflow-y-auto h-1/2 px-6 hover:bg-violet-600">
-      <el-space wrap :size="size"  class=" w-fit items-center text-slate-500   text-sm"   >
-      <el-card v-for="i in 4" :key="i" class="center  w-full hover:ring-sky-500 box-card dark:text-white border-dashed" style="width: 250px">
-        <template #header>
-           <div class="center card-header">
-            <span>Option </span>
-            <el-form
-    :label-position="labelPosition"
-    label-width="auto"
-    :model="formLabelAlign"
-    style="max-width: 600px"
-  >
-    <el-form-item label="Time">
-      <el-input v-model="formLabelAlign.name" />
-    </el-form-item>
-    <el-form-item label=" zone">
-      <el-input v-model="formLabelAlign.region" />
-    </el-form-item>
-    <el-form-item label="Activity form">
-      <el-input v-model="formLabelAlign.type" />
-    </el-form-item>
-  </el-form>
-            <!-- <el-button class="button" text>Operation button</el-button> -->
-          </div>
-        </template>
-        <div v-for="o in 2" :key="o" class="text item">
-          {{ 'List item ' + o }}
-        </div>
-      </el-card>
-    </el-space>
-    </div>
+              <el-radio value="large">Large</el-radio>
+              <el-radio value="default">Default</el-radio>
+              <el-radio value="small">Small</el-radio>
+            </el-radio-group>
+            <div class=" w-fit overflow-hidden overflow-y-auto h-1/2 px-6 hover:bg-violet-600">
+              <el-space wrap :size="size"  class=" w-fit items-center text-slate-500   text-sm"   >
+                <el-card v-for="i in 4" :key="i" class="center  w-full hover:ring-sky-500 box-card dark:text-white border-dashed" style="width: 250px">
+                  <template #header>
+                    <div class="center card-header">
+                      <span>Option </span>
+                      <el-form
+                        :label-position="labelPosition"
+                        label-width="auto"
+                        :model="formLabelAlign"
+                        style="max-width: 600px"
+                      >
+                        <el-form-item label="Time">
+                          <el-input v-model="formLabelAlign.name" />
+                        </el-form-item>
+                        <el-form-item label=" zone">
+                          <el-input v-model="formLabelAlign.region" />
+                        </el-form-item>
+                        <el-form-item label="Activity form">
+                          <el-input v-model="formLabelAlign.type" />
+                        </el-form-item>
+                      </el-form>
+                                <!-- <el-button class="button" text>Operation button</el-button> -->
+                    </div>
+                  </template>
+                  <div v-for="o in 2" :key="o" class="text item">
+                    {{ 'List item ' + o }}
+                  </div>
+                </el-card>
+              </el-space>
+            </div>
 
-    
-  </el-space>
+          
+          </el-space>
 
         </div>
-        
-      </div>
+              
+        </div>
       <!-- top center -主图  -->
 
-      <div class = "w-1/2  px-6 py-4  border-dashed border border-green-500 rounded   relative   ">
+      <div class = "w-1/2   border-dashed border border-gray-500    relative   ">
         <!-- hover:bg-sky-500 bg-green-200-->
         
         <div class="bg-slate-600   top-title">center</div>
@@ -71,15 +71,15 @@
       </div>
 
       <!-- top right -散点 -->
-      <div class="w-1/4 flex flex-col  px-3 py-4 border-dashed border border-yellow-500 rounded relative " id = "firstdiv">
-        <div class="bg-slate-600  flex-shrink-0 top-title " id = 'title'>right</div>
+      <div class="w-1/4   border-dashed border border-gray-500 h-full rounded  " id = "firstdiv">
+        <div class="bg-slate-600   top-title " >right</div>
        
-        <div class="flex-grow w-full h-full flex flex-col"  id="scafather" >
+        <div class="flex-grow w-full h-full flex flex-col space-y-2 pb-1 pt-1 px-1 "  id="scafather" >
           <!-- 使用 ScatterPCA 组件 -->
-          <div class="scatter-container" :style="scatterStyle" id = 'topdiv'>
+          <div class="scatter-container border" :style="scatterStyle" id = 'topdiv'>
             <scatterPCA :containerWidth="containerWidth" :containerHeight="containerHeight" />
           </div>
-          <div class="scatter-container" :style="scatterStyle" id = 'bottomdiv'>
+          <div class="scatter-container border " :style="scatterStyle" id = 'bottomdiv'>
             <scatterPCAcom :containerWidth="containerWidth" :containerHeight="containerHeight " />
           </div>
           <!-- <scatterPCA :containerWidth="containerWidth" :containerHeight="containerHeight" /> -->
@@ -89,16 +89,16 @@
     </div>
 
     <!-- bottom -->
-    <div class="h-1/3 px-6 py-4 bg-gray-200 border-t border-dashed rounded border-gray-500 relative">
+    <div class="h-1/3  bg-gray-200 border-t border-dashed rounded border-gray-500 relative">
       <div class="bg-slate-600   top-title">bottom</div>
-      <div class="px-6 py-4 hover:bg-sky-500">
+      <div class="px-6 py-4 ">
 
         <el-table    :data="tableData"    style="width: 100%"    :row-class-name="tableRowClassName">
           <el-table-column prop="date" label="Date" width="180" />
           <el-table-column prop="name" label="Name" width="180" />
           <el-table-column prop="address" label="Address" />
         </el-table> 
-        </div>
+      </div>
       <div class = "px-6 py-4">
         <parallercop></parallercop>
         <!-- <parallel></parallel> -->
@@ -284,10 +284,10 @@ a{
   align-items:center;
   justify-content: center;
 }
-#firstdiv{
+/* #firstdiv{
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-  margin-bottom: 0.5rem;
-}
+  /* margin-bottom: 0.5rem; 
+} */
 
 </style>

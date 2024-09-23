@@ -51,29 +51,29 @@
           .data(d3.range(this.numSquares))
           .enter()
           .append('rect')
-          .attr('x', (d) => (d % 15) * this.squareSize)   // 计算每个正方形的x位置
-          .attr('y', (d) => Math.floor(d / 15) * (this.squareSize + this.squareGap))  // 计算每个正方形的y位置
+          .attr('x', (d) => (d % 15) * this.squareSize)   
+          .attr('y', (d) => Math.floor(d / 15) * (this.squareSize + this.squareGap))  
           .attr('width', this.squareSize)
           .attr('height', this.squareSize)
-          .attr('stroke', 'black')   // 设置边框颜色为黑色
-          .attr('stroke-width', 1)   // 边框宽度为1
-          .attr('fill','white')      // 设置填充颜色为空
+          .attr('stroke', 'black')   
+          .attr('stroke-width', 1)   
+          .attr('fill','white')      
           .attr('id', (d) => `square-${d + 1}`)
-          .call(drag);  // 给每个正方形设置一个唯一的ID
+          .call(drag);  
 
         // 为每一行添加折线
-        this.drawLine(svg);
+        this.drawLine(svg); 
       }
       ,
       drawLine(svg) {
         const lineGenerator = d3.line()
-          .x(d => d.x)  // 根据x坐标生成点
-          .y(d => d.y)  // 根据y坐标生成点
-          .curve(d3.curveLinear);  // 使用线性折线
+          .x(d => d.x)  
+          .y(d => d.y)  
+          .curve(d3.curveLinear);  
 
         // 遍历每一行生成折线
         for (let row = 0; row < 3; row++) {
-          // 生成当前行的 14 个转折点，每个点位于两个方格的交界处
+          
           const points = [];
           for (let i = 0; i <= 15; i++) {
             // 计算每个点的x和y位置，x为两个方格之间的位置，y为当前行的y值
@@ -115,7 +115,7 @@
             .attr('stroke-width', 2);
         });
       },
-    },
+    }, 
   };
   </script>
   
