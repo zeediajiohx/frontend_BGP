@@ -1,6 +1,6 @@
 <template>
     <div ref="svgContainer"></div>
-    <button @click="randomChangeBorder" style="">Drift ?</button>
+    <button @click="randomChangeBorder" >Drift ?</button>
   </template>
   
   <script>
@@ -133,7 +133,7 @@
             .attr('stroke-width', 1);    // 重置边框宽度
   
           // 随机改变左边边框的颜色和宽度
-          const x = (squareIndex % 15) * this.squareSize;
+          const x = (squareIndex % 15) * this.squareSize+200;
           const y = Math.floor(squareIndex / 15) * (this.squareSize + this.squareGap);
   
           d3.select(this.$refs.svgContainer).select('svg').append('line')

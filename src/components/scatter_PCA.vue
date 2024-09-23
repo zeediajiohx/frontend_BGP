@@ -23,9 +23,7 @@ const drawChart = (width: number, height: number) => {
   const svg = d3.select(chart.value)
     .append('svg')
     .attr('width', width)
-    .attr('height', height)
-    .attr('viewBox',viewBox)
-    ;
+    .attr('height', height);
 
   d3.json('BI_2data_for_d3.json').then(data => {
     const xExtent = d3.extent(data['tsne_results'], (d: [number, number]) => d[0]);

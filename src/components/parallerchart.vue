@@ -23,11 +23,11 @@
       </div>
   
       <!-- 时间轴 -->
-      <!-- <div  
-      ref="timeline" id="timeline" style="width: 100%; height: 50px;"></div>
-   -->
+      
       <!-- 平行坐标系 -->
       <div ref="parallelChart" style="width: 100%; height: 600px; position: relative;"></div>
+      <div  ref="timeline" id="timeline" style="width: 100%; height: 50px;"></div>
+  
     </div>
   </template>
   
