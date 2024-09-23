@@ -3,48 +3,41 @@
   <!-- ... -->
   </html>
 
-  <div class="flex  flex-col    h-screen ">
-     <!-- top -->
-    <div class="h-2/3  flex  ">
-      <!-- top left -表单  -->
-      <div class="w-1/4    border-dashed  border border-gray-500 h-full  ">
-        <div>
-          <div class="bg-slate-600   top-title">left</div>
-        </div>
-        
-        <div class="content px-4  w-full  h-full ">
-
-
-          <el-space direction="vertical" alignment="start" :size=" 30" class="w-full center h-full  flex py-0 first:pt-2 last:pb-2   active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300 item-center"   >
-    
-            <el-radio-group v-model="size" class="center mt-2  hover:bg-violet-600 dark:text-white text-slate-900 group-hover:text-white text-sm font-semibold">
+  <div class="flex flex-col h-screen p-1">
+  <!-- top -->
+  <div class="h-3/5 flex border border-gray-500 p-1">
+    <!-- top left -表单  -->
+    <div class="w-1/4 flex flex-col border-t border-l border-b border-dashed border-gray-500 h-full" id="tablecont">
+      <div class="top-title">left</div>
+      <div class="content-fill w-full h-full flex-grow overflow-hidden">
+        <el-space
+          direction="vertical"
+          alignment="start"
+          :size="30"
+          class="w-full h-full flex py-0 first:pt-2 last:pb-2 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300 items-center overflow-hidden"
+        >
+            <el-radio-group v-model="size" class="center w-full mt-2 hover:bg-violet-600 dark:text-white text-slate-900 group-hover:text-white text-sm font-semibold">
               <el-radio value="large">Large</el-radio>
               <el-radio value="default">Default</el-radio>
               <el-radio value="small">Small</el-radio>
             </el-radio-group>
-            <div class=" w-fit overflow-hidden overflow-y-auto h-1/2 px-6 hover:bg-violet-600">
-              <el-space wrap :size="size"  class=" w-fit items-center text-slate-500   text-sm"   >
-                <el-card v-for="i in 4" :key="i" class="center  w-full hover:ring-sky-500 box-card dark:text-white border-dashed" style="width: 250px">
+            <div class="w-full overflow-hidden overflow-y-auto flex-grow px-6 hover:bg-violet-600">
+              <el-space wrap :size="size" class="w-full items-center text-slate-500 text-sm">
+                <el-card v-for="i in 4" :key="i" class="center w-full hover:ring-sky-500 box-card dark:text-white border-dashed" >
                   <template #header>
                     <div class="center card-header">
                       <span>Option </span>
-                      <el-form
-                        :label-position="labelPosition"
-                        label-width="auto"
-                        :model="formLabelAlign"
-                        style="max-width: 600px"
-                      >
+                      <el-form :label-position="labelPosition" label-width="auto" :model="formLabelAlign" >
                         <el-form-item label="Time">
                           <el-input v-model="formLabelAlign.name" />
                         </el-form-item>
-                        <el-form-item label=" zone">
+                        <el-form-item label="Zone">
                           <el-input v-model="formLabelAlign.region" />
                         </el-form-item>
                         <el-form-item label="Activity form">
                           <el-input v-model="formLabelAlign.type" />
                         </el-form-item>
                       </el-form>
-                                <!-- <el-button class="button" text>Operation button</el-button> -->
                     </div>
                   </template>
                   <div v-for="o in 2" :key="o" class="text item">
@@ -53,8 +46,7 @@
                 </el-card>
               </el-space>
             </div>
-
-          
+           
           </el-space>
 
         </div>
@@ -66,18 +58,37 @@
         <!-- hover:bg-sky-500 bg-green-200-->
         
         <div class="bg-slate-600   top-title">center</div>
-        02
+       
         <SquareGrid/>
       </div>
 
       <!-- top right -散点 -->
-      <div class="w-1/4   border-dashed border border-gray-500 h-full rounded  " id = "firstdiv">
+      <div class="w-1/4 border-t border-r border-b  border-dashed  border-gray-500 h-full rounded flex flex-col " id = "firstdiv">
         <div class="bg-slate-600   top-title " >right</div>
-       
-        <div class="flex-grow w-full h-full flex flex-col space-y-2 pb-1 pt-1 px-1 "  id="scafather" >
+        
+        <div class="content-fill flex-grow w-full  flex flex-col   px-1 "  id="scafather" >
           <!-- 使用 ScatterPCA 组件 -->
+          <div class=''>
+            <label for="columnRange">select Columns:</label>
+            <select v-model="selectedColumnRange" @change="updateChart">
+              <option value="2-8">Mulit-head Attention</option>
+              <option value="9-17">Self Attention</option>
+              <option value="18-27">LSTM</option>
+              
+            </select>
+          </div>
+
           <div class="scatter-container border" :style="scatterStyle" id = 'topdiv'>
             <scatterPCA :containerWidth="containerWidth" :containerHeight="containerHeight" />
+          </div>
+          <div class=''>
+            <label for="columnRange">select Columns:</label>
+            <select v-model="selectedColumnRange" @change="updateChart">
+              <option value="2-8">vol peer列</option>
+              <option value="9-17">9-17列</option>
+              <option value="18-27">18-27列</option>
+              
+            </select>
           </div>
           <div class="scatter-container border " :style="scatterStyle" id = 'bottomdiv'>
             <scatterPCAcom :containerWidth="containerWidth" :containerHeight="containerHeight " />
@@ -89,25 +100,27 @@
     </div>
 
     <!-- bottom -->
-    <div class="h-1/3  bg-gray-200 border-t border-dashed rounded border-gray-500 relative">
-      <div class="bg-slate-600   top-title">bottom</div>
-      <div class="px-6 py-4 ">
 
-        <el-table    :data="tableData"    style="width: 100%"    :row-class-name="tableRowClassName">
-          <el-table-column prop="date" label="Date" width="180" />
-          <el-table-column prop="name" label="Name" width="180" />
-          <el-table-column prop="address" label="Address" />
-        </el-table> 
-      </div>
-      <div class = "px-6 py-4">
-        <parallercop></parallercop>
-        <!-- <parallel></parallel> -->
-      </div>
-      
-      
+    <div class="h-2/5  border-b border-l border-r border-gray-500 p-1 relative">
+        <div class="bg-slate-600   top-title">bottom</div>  
+        <!-- 
+        <div class="px-6 py-4 ">
+
+          <el-table    :data="tableData"    style="width: 100%"    :row-class-name="tableRowClassName">
+            <el-table-column prop="date" label="Date" width="180" />
+            <el-table-column prop="name" label="Name" width="180" />
+            <el-table-column prop="address" label="Address" />
+          </el-table> 
+        </div> -->
+        <div class = "px-6 py-4">
+          <parallercop></parallercop>
+          <!-- <parallel></parallel> -->
+        </div>
         
-      <!-- <div>05</div> -->
-      </div>
+        
+          
+        <!-- <div>05</div> -->
+        </div>
     </div>
   <!-- <div  class=" group block   rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-500 hover:ring-sky-500 ">  
     
@@ -249,18 +262,37 @@ const formLabelAlign = reactive({
 a{
   margin: 10px;
 }
-
+/* .chartsContent{
+  position: absolute;
+  box-sizing: border-box;
+  clip-path: polygon(0% 0%,30% 0px,70% 50%,100% 50%,100% 100%,0 100%);
+} */
+/* .top-title{
+  text-align: right;
+  color: #fff;
+  margin: 50px 50px 0;
+  font-size: 40px;
+  font-weight: 700;
+} */
+.content-fill{
+  flex:1;
+  height:557px;
+  display:flex;
+  flex-direction: column;
+}
 .top-title {
-  width: 150px;
+            width: 150px;
             height: 30px;
-            background-color: rgb(140, 141, 141);
+            background-color: rgb(64, 64, 64);
             position: relative;
             font-size: 18px;
             text-align: center;
+            color: #fffefe;
             line-height: 30px;
+            clip-path: polygon(0 0, 100% 0, 100% 0%, 70% 100%, 0 100%);
 
 }
-.top-title::after{
+/* .top-title::after{
   content: '';
             height: 0px;
             width: 0px;
@@ -272,7 +304,7 @@ a{
             border-right: 30px solid rgba(0, 0, 0, 0);
             border-bottom: 30px solid rgb(140, 141, 141);
  
-}
+} */
 #scafather {
   display: flex;
   flex-direction: column;
@@ -284,6 +316,7 @@ a{
   align-items:center;
   justify-content: center;
 }
+
 /* #firstdiv{
   padding-left: 0.5rem;
   padding-right: 0.5rem;
