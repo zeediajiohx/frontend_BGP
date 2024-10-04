@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="h-full">
       <!-- 选择列的范围 -->
       <div>
         <label for="columnRange">select Columns:</label>
@@ -25,7 +25,7 @@
       <!-- 时间轴 -->
       
       <!-- 平行坐标系 -->
-      <div ref="parallelChart" style="width: 100%; height: 600px; position: relative;"></div>
+      <div ref="parallelChart" style="width: 100%; height: 300px; position: relative;"></div>
       <div  ref="timeline" id="timeline" style="width: 100%; height: 50px;"></div>
   
     </div>
@@ -423,7 +423,7 @@ function getBoxColor(i, total) {
   <style scoped>
   #parallelChart {
     width: 100%;
-    height: 600px;
+    height: 300px;
   position: relative;
 
   }

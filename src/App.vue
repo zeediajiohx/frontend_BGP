@@ -5,9 +5,9 @@
 
   <div class="flex flex-col h-screen p-1">
   <!-- top -->
-  <div class="h-3/5 flex border border-gray-500 p-1">
+  <div class="h-3/5 flex border border-gray-500 w-full p-1">
     <!-- top left -表单  -->
-    <div class="w-1/4 flex flex-col border-t border-l border-b border-dashed border-gray-500 h-full" id="tablecont">
+    <div class="w-2/12 flex flex-col border-t border-l border-b border-dashed border-gray-500 h-full" id="tablecont">
       <div class="top-title">left</div>
       <div class="content-fill w-full h-full flex-grow overflow-hidden">
         <el-space
@@ -54,7 +54,7 @@
         </div>
       <!-- top center -主图  -->
 
-      <div class = "w-1/2   border-dashed border border-gray-500    relative   ">
+      <div class = "w-6/12  border-dashed border border-gray-500    relative   ">
         <!-- hover:bg-sky-500 bg-green-200-->
         
         <div class="bg-slate-600   top-title">center</div>
@@ -63,7 +63,7 @@
       </div>
 
       <!-- top right -散点 -->
-      <div class="w-1/4 border-t border-r border-b  border-dashed  border-gray-500 h-full rounded flex flex-col " id = "firstdiv">
+      <div class="w-4/12 border-t border-r border-b  border-dashed  border-gray-500 h-full rounded flex flex-col " id = "firstdiv">
         <div class="bg-slate-600   top-title " >right</div>
         
         <div class="content-fill flex-grow w-full  flex flex-col   px-1 "  id="scafather" >
@@ -74,12 +74,16 @@
               <option value="2-8">Mulit-head Attention</option>
               <option value="9-17">Self Attention</option>
               <option value="18-27">LSTM</option>
-              
             </select>
           </div>
-
-          <div class="scatter-container border" :style="scatterStyle" id = 'topdiv'>
+          <div class="flex flex-row">
+            <div class="scatter-container border flex" :style="scatterStyle" id = 'topdiv'>
             <scatterPCA :containerWidth="containerWidth" :containerHeight="containerHeight" />
+          </div>
+          <div class="scatter-container border flex" :style="scatterStyle" id = 'topdiv'>
+            <scatterPCA2 :containerWidth="containerWidth" :containerHeight="containerHeight" />
+          </div>
+
           </div>
           <div class=''>
             <label for="columnRange">select Columns:</label>
@@ -87,12 +91,17 @@
               <option value="2-8">vol peer列</option>
               <option value="9-17">9-17列</option>
               <option value="18-27">18-27列</option>
-              
             </select>
           </div>
-          <div class="scatter-container border " :style="scatterStyle" id = 'bottomdiv'>
-            <scatterPCAcom :containerWidth="containerWidth" :containerHeight="containerHeight " />
+          <div class="flex flex-row">
+            <div class="scatter-container border " :style="scatterStyle" id = 'bottomdiv'>
+              <scatterPCAcom :containerWidth="containerWidth" :containerHeight="containerHeight " />
+            </div>
+            <div class="scatter-container border " :style="scatterStyle" id = 'bottomdiv'>
+              <scatterPCAcom2 :containerWidth="containerWidth" :containerHeight="containerHeight " />
+            </div>
           </div>
+          
           <!-- <scatterPCA :containerWidth="containerWidth" :containerHeight="containerHeight" /> -->
         </div>
       </div>
@@ -105,7 +114,6 @@
         <div class="bg-slate-600   top-title">bottom</div>  
         <!-- 
         <div class="px-6 py-4 ">
-
           <el-table    :data="tableData"    style="width: 100%"    :row-class-name="tableRowClassName">
             <el-table-column prop="date" label="Date" width="180" />
             <el-table-column prop="name" label="Name" width="180" />
@@ -135,6 +143,8 @@ import { defineComponent ,onMounted,ref} from 'vue';
 
 import scatterPCA from "./components/scatter_PCA.vue";
 import scatterPCAcom from "./components/scatter_2.vue";
+import scatterPCA2 from "./components/scatter_PCA2.vue";
+import scatterPCAcom2 from "./components/scatter_PCA2.vue";
 import SquareGrid from "./components/SquareGrid.vue";
 import parallel from "./components/parallel.vue";
 import parallercop from "./components/parallerchart.vue"
@@ -184,6 +194,8 @@ const App = defineComponent({
   components:{
     scatterPCA,
     scatterPCAcom,
+    scatterPCA2,
+    scatterPCAcom2,
     SquareGrid,
     // parallel,
     parallercop
@@ -276,7 +288,7 @@ a{
 } */
 .content-fill{
   flex:1;
-  height:557px;
+  height:501px;
   display:flex;
   flex-direction: column;
 }
