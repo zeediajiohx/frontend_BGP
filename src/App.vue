@@ -9,7 +9,8 @@
     <!-- top left -表单  -->
     <div class="w-2/12 flex flex-col border-t border-l border-b border-dashed border-gray-500 h-full" id="tablecont">
       <div class="top-title">left</div>
-      <div class="content-fill w-full h-full flex-grow overflow-hidden">
+      <assankey/>
+      <!-- <div class="content-fill w-full h-full flex-grow overflow-hidden">
         <el-space
           direction="vertical"
           alignment="start"
@@ -49,7 +50,7 @@
            
           </el-space>
 
-        </div>
+        </div> -->
               
         </div>
       <!-- top center -主图  -->
@@ -147,7 +148,8 @@ import scatterPCA2 from "./components/scatter_PCA2.vue";
 import scatterPCAcom2 from "./components/scatter_PCA2.vue";
 import SquareGrid from "./components/SquareGrid.vue";
 import parallel from "./components/parallel.vue";
-import parallercop from "./components/parallerchart.vue"
+import parallercop from "./components/parallerchart.vue";
+import assankey from "./components/ASLink_sankey.vue"
 // ... 其他代码
 // const containerWidth = ref<number>(0);
 // const containerHeight = ref<number>(0);
@@ -198,7 +200,8 @@ const App = defineComponent({
     scatterPCAcom2,
     SquareGrid,
     // parallel,
-    parallercop
+    parallercop,
+    assankey,
   }
 })
 interface User {
