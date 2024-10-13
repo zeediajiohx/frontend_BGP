@@ -8,19 +8,9 @@
 <script>
     import * as echarts from 'echarts'
     import axios from 'axios'
-    import * as d3 from 'd3'
 
-    function getBoxColor(i,total){
-        const startColor = d3.rgb(173,216,230);
-        const endColor = d3.rgb(0,0,139);
-
-        const colorScale = d3.scaleLinear().colorScale = d3.scaleLinear()
-            .domain([0,total-1])
-            .range([startColor,endColor]);
-        return colorScale(i);
-    }
      export default{
-        name:'sankey',
+        name:'sankeychart',
         data(){
             return{
                 JsonData:[],
@@ -28,8 +18,17 @@
         },
         mounted(){
             this.lodaData();
+            window.addEventListener('resize', this.resizeChart);
         },
+        
         methods:{
+            resizeChart() {
+              const chartDom = this.$refs.sankeyChart;
+              const mychart = echarts.getInstanceByDom(chartDom);
+              if (mychart) {
+                mychart.resize(); // 调整图表大小
+              }
+            },
             async lodaData(){
                 const response = await axios.get('/asnLinks2.jsonl',{responseType:'blob'});
                 const text = await response.data.text();
@@ -44,14 +43,19 @@
                     nodes.add(item.asn1.asn);
                     return{
                         source:item.asn0.asn,
-                        target:item.asn1.asm,
+                        target:item.asn1.asn,
                         value:item.numberPaths,
-                        relationship:item.relationship,
+                        
                     };
                 });
                 const nodeArray = Array.from(nodes).map(node =>({name:node}));
                 this.JsonData = {nodes:nodeArray,links};
-                console.log("JSONDATA:",this.JsonData)
+                console.log("JSONDATA:",this.JsonData.links)
+                this.$nextTick(() => {
+                  setTimeout(() => {
+                    this.drawSankey();
+                  }, 100); 
+                });
                 this.drawSankey();
                 
             },
@@ -61,6 +65,7 @@
                 const option = {
                     title: {
                     text: 'AS Links Sankey Diagram',
+                    left: 'center',
                     },
                     tooltip: {
                     trigger: 'item',
@@ -84,21 +89,23 @@
                     },
                 };
                 mychart.setOption(option);
-            }
+            },
+            beforeDestroy() {
+              window.removeEventListener('resize', this.resizeChart); 
+            },
         }
      }
 </script>
 <style scoped>
 .sankey-container {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 100%; 
 }
 
 .sankey-chart {
   flex: 1;
   width: 100%;
-  height: 100%;
+  height: 100%; 
 }
 </style>

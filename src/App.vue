@@ -60,7 +60,7 @@
         
         <div class="bg-slate-600   top-title">center</div>
        
-        <SquareGrid/>
+        <assankey/>
       </div>
 
       <!-- top right -散点 -->
