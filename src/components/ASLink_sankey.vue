@@ -26,7 +26,7 @@
               const chartDom = this.$refs.sankeyChart;
               const mychart = echarts.getInstanceByDom(chartDom);
               if (mychart) {
-                mychart.resize(); // 调整图表大小
+                mychart.resize(); 
               }
             },
             async lodaData(){
@@ -36,19 +36,45 @@
                 const data = lines.map(line => JSON.parse(line));
                 
                 const nodes = new Set();
-                const selecteddata = data.sort((a,b) => b.numberPaths-a.numberPaths).slice(0,100);
-                
+                const selecteddata = data.sort((a,b) => b.numberPaths-a.numberPaths).slice(0,180);
+                const labelsdata = selecteddata.slice(0,20);
                 const links = selecteddata.map(item =>{
                     nodes.add(item.asn0.asn);
                     nodes.add(item.asn1.asn);
+                    let color;
+                    switch (item.relationship) {
+                      case 'peer':
+                        color = '#1f77b4'; 
+                        break;
+                      case 'customer':
+                        color = '#ff7f0e'; 
+                        break;
+                      case 'provider':
+                        color = '#2ca02c'; 
+                        break;
+                      default:
+                        color = '#d62728'; }
                     return{
                         source:item.asn0.asn,
                         target:item.asn1.asn,
                         value:item.numberPaths,
+                        relationship:item.relationship,
+                        lineStyle: {
+                          color: color,  
+                        },
                         
                     };
                 });
-                const nodeArray = Array.from(nodes).map(node =>({name:node}));
+                const labeledNodes = new Set();
+                labelsdata.forEach(item => {
+                  labeledNodes.add(item.asn0.asn);
+                  labeledNodes.add(item.asn1.asn);
+                });
+                const nodeArray = Array.from(nodes).map(node =>({
+                  name:node,
+                  label: { show: labeledNodes.has(node)},
+
+                  }));
                 this.JsonData = {nodes:nodeArray,links};
                 console.log("JSONDATA:",this.JsonData.links)
                 this.$nextTick(() => {

@@ -10,16 +10,16 @@
     name: 'SquareGrid',
     data() {
       return {
-      numSquares: 75, // 总共75个正方形 (5行，每行15个)
-      squareSize: 35, // 正方形边长
-      squareGap: 38,  // 行间距
-      points: [],     // 存储所有方块的位置
-      lines: [],      // 存储所有折线的路径
-      rowOptions: ['VOL', 'peer', 'AS', 'origin', 'ED'] // 选择框可选项
+      numSquares: 75, // 5行，/行15
+      squareSize: 35, //边长
+      squareGap: 8,  // 行gap
+      points: [],     // 方块位置
+      lines: [],      // 折线路径
+      rowOptions: ['VOL', 'peer', 'AS', 'origin', 'ED'] 
     };
     },
     mounted() {
-      this.drawGrid();  // 组件加载时绘制正方形
+      this.drawGrid();  
     },
     methods: {
       // 画正方形网格

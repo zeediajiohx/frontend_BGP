@@ -46,7 +46,6 @@ function getBoxColor(i, total) {
     .domain([0, total - 1]) // 
     .range([startColor, endColor]); // 
 
-  
   return colorScale(i);
 }
 
@@ -114,7 +113,7 @@ function getBoxColor(i, total) {
             // this.csvData.push(values);
             // this.timePoints.push(values[1]);  
           });
-          console.log(this.csvData.length,this.timePoints.length,"csv\\timepoint")
+          //console.log(this.csvData.length,this.timePoints.length,"csv\\timepoint")
         }
 
         // 

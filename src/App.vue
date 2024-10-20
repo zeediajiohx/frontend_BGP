@@ -54,14 +54,17 @@
               
         </div>
       <!-- top center -主图  -->
-
-      <div class = "w-6/12  border-dashed border border-gray-500    relative   ">
-        <!-- hover:bg-sky-500 bg-green-200-->
+    
+        <div class = "w-6/12  border-dashed border border-gray-500 flex flex-col h-full  relative   ">
+          <!-- hover:bg-sky-500 bg-green-200-->
+          
+          <div class="bg-slate-600   top-title">center</div>
         
-        <div class="bg-slate-600   top-title">center</div>
-       
-        <assankey/>
-      </div>
+          <SquareGrid/>
+          <calender></calender>
+        </div>
+      
+      
 
       <!-- top right -散点 -->
       <div class="w-4/12 border-t border-r border-b  border-dashed  border-gray-500 h-full rounded flex flex-col " id = "firstdiv">
@@ -144,12 +147,13 @@ import { defineComponent ,onMounted,ref} from 'vue';
 
 import scatterPCA from "./components/scatter_PCA.vue";
 import scatterPCAcom from "./components/scatter_2.vue";
-import scatterPCA2 from "./components/scatter_PCA2.vue";
+import scatterPCA2 from "./components/scatter_com2.vue";
 import scatterPCAcom2 from "./components/scatter_PCA2.vue";
 import SquareGrid from "./components/SquareGrid.vue";
 import parallel from "./components/parallel.vue";
 import parallercop from "./components/parallerchart.vue";
-import assankey from "./components/ASLink_sankey.vue"
+import assankey from "./components/ASLink_sankey.vue";
+import calender from "./components/calender.vue"
 // ... 其他代码
 // const containerWidth = ref<number>(0);
 // const containerHeight = ref<number>(0);
@@ -202,6 +206,7 @@ const App = defineComponent({
     // parallel,
     parallercop,
     assankey,
+    calender,
   }
 })
 interface User {
@@ -294,6 +299,10 @@ a{
   height:501px;
   display:flex;
   flex-direction: column;
+}
+.cent-parent-container{
+  display: flex;
+  height: 100%;
 }
 .top-title {
             width: 150px;
